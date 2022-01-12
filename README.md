@@ -1,7 +1,7 @@
 # Letmeask - Front-end
 
 # 🔗 Letmeask
-<p>🚀 Aplicação voltada interação de usuários por meio de salas de perguntas e respostas</p>
+<p>🚀 Aplicação voltada para a interação de usuários por meio de salas de perguntas e respostas</p>
 
 # Status da Aplicação
 <p>🚧 Aplicação em Desenvolvimento</p>
@@ -20,4 +20,4 @@
 - React JS
 - Create React App
 - Styled Components
-- Typescript
+- Javascript
