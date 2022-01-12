@@ -10,26 +10,26 @@ import Form from "../../styles/form";
 
 import Strong from './styles';
 
-const Create = () => {
+const EnterRoom = () => {
     const navigate = useNavigate();
-    const handleLink = () => navigate("/enter-room");
+    const handleLink = () => navigate("/create-room");
     
     return ( 
         <>
             <ContainerMain>
                 <Form name="login">
                     <Logo />
-                    
-                    <h2>Criar sala</h2>
 
-                    <FormInput type="text" name="roomName" placeholder="Nome da Sala" />
+                    <h2>Entra em uma sala</h2>
+                    
+                    <FormInput type="text" name="roomName" placeholder="Código da Sala" />
 
                     <FormButton>
-                        Criar Sala
+                        Entrar na Sala
                     </FormButton>
 
                     <span>
-                        Quer entrar em uma sala já existente?
+                        Quer criar uma sala?
                         <Strong onClick={() => handleLink()}>Clique aqui</Strong>
                     </span>
                 </Form>
@@ -38,4 +38,4 @@ const Create = () => {
     );
 }
  
-export default Create;
+export default EnterRoom;

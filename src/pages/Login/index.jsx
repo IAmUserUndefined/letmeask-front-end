@@ -15,6 +15,8 @@ const Login = () => {
                 <Form name="login">
                     <Logo />
                     
+                    <h2>Login</h2>
+
                     <FormInput type="email" name="email" placeholder="Email" />
                     <FormInput type="password" name="password" placeholder="Senha" />
 

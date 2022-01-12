@@ -14,6 +14,8 @@ const Login = () => {
             <ContainerMain>
             <Form name="forgetPassword">
                 <Logo />
+
+                <h2>Esqueci minha senha</h2>
                 
                 <FormInput type="email" name="email" placeholder="Email" />
 

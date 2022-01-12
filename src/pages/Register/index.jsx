@@ -14,6 +14,8 @@ const Register = () => {
             <ContainerMain>
                 <Form name="login">
                     <Logo />
+
+                    <h2>Cadastrar</h2>
                     
                     <FormInput type="email" name="email" placeholder="Email" />
                     <FormInput type="text" name="name" placeholder="Nome" />
