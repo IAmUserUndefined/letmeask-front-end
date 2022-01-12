@@ -10,7 +10,7 @@ import Form from "../../styles/form";
 
 import Strong from './styles';
 
-const Create = () => {
+const CreateRoom = () => {
     const navigate = useNavigate();
     const handleLink = () => navigate("/enter-room");
     
@@ -38,4 +38,4 @@ const Create = () => {
     );
 }
  
-export default Create;
+export default CreateRoom;
