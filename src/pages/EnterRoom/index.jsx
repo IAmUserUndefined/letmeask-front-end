@@ -26,10 +26,15 @@ const EnterRoom = () => {
                     <Link link={"/create-room"}>
                         Quer criar uma sala?
                     </Link>
+
+                    <Link link={"/my-questions"}>
+                        Quer acessar suas perguntas?
+                    </Link>
                     
                     <Link link={"/update-email"}>
-                        Acessar configurações do usuário?
+                        Quer acessar configurações do usuário?
                     </Link>
+                    
                 </Form>
             </ContainerMain>
         </>

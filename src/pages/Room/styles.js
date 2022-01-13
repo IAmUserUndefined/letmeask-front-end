@@ -1,36 +1,5 @@
 import styled from "styled-components";
 
-export const ContainerPage = styled.main`
-    margin: 3rem auto;
-    padding: 1rem;
-    max-width: 600px;
-
-    > h1 {
-        font-weight: 900;
-        margin-bottom: 2rem;
-        text-indent: 5px;
-    }
-`;
-
-export const InformationContainer = styled.div`
-        height: 60vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-
-        > h2, span {
-            margin-top: 1rem;
-            text-align: center;
-            padding: 0.5rem;
-        }
-
-        > span {
-            color: #4d5e77;
-            width: 300px;
-        }
-`;
-
 export const ContainerQuestion = styled.div`
     margin: 2rem auto;
     max-width: 600px;

@@ -24,7 +24,7 @@ export const NavigationContainer = styled.nav`
         margin-right: 1rem;
     }
 
-    @media (max-width: 992px) {
+    @media (max-width: 1058px) {
         width: 100%;
         height: 100vh;
         position: absolute;
@@ -56,7 +56,7 @@ export const IconMenu = styled.div`
     height: 40px;
   }
   
-  @media (max-width: 992px) {
+  @media (max-width: 1058px) {
     display: block;
   }
 

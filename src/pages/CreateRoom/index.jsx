@@ -27,9 +27,14 @@ const CreateRoom = () => {
                         Quer entrar em uma sala já existente?
                     </Link>
 
-                    <Link link={"/update-email"}>
-                        Acessar configurações do usuário?
+                    <Link link={"/my-questions"}>
+                        Quer acessar suas perguntas?
                     </Link>
+
+                    <Link link={"/update-email"}>
+                        Quer acessar configurações do usuário?
+                    </Link>
+                    
                 </Form>
             </ContainerMain>
         </>

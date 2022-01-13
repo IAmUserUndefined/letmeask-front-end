@@ -1,10 +1,12 @@
 import React from 'react';
+import { useLocation } from "react-router-dom";
 
 import { ContainerQuestion, ContentQuestion, ContainerResponse, Footer } from './styles';
 
 import { MdOutlineDelete, MdOutlineQuestionAnswer } from "react-icons/md";
 
 const Question = ({ admin, response }) => {
+    const { pathname } = useLocation();
     return ( 
         <>
             <ContainerQuestion>
@@ -22,10 +24,13 @@ const Question = ({ admin, response }) => {
                     </div>
                     <div>
                         {
-                            admin ? <MdOutlineQuestionAnswer /> : null
+                            admin && pathname !== "/my-questions" ? <MdOutlineQuestionAnswer /> : null
                         }
                         {
-                            admin ? <MdOutlineDelete /> : null
+                            admin && pathname !== "/my-questions" ? <MdOutlineDelete /> : null
+                        }
+                        {
+                            pathname === "/my-questions" ? <MdOutlineDelete /> : null
                         }
                     </div>
                 </Footer>

@@ -9,6 +9,7 @@ import CreateRoom from "./pages/CreateRoom";
 import EnterRoom from "./pages/EnterRoom";
 import RecoverPassword from "./pages/RecoverPassword";
 import Room from "./pages/Room";
+import MyQuestions from "./pages/MyQuestions";
 import UpdateEmail from "./pages/UpdateEmail";
 import UpdateName from "./pages/UpdateName";
 import UpdatePassword from "./pages/UpdatePassword";
@@ -24,7 +25,8 @@ export const AppRoutes = () => {
                 <Route path="/recover-password" element={<RecoverPassword />} exact />
                 <Route path="/create-room" element={<CreateRoom />} exact />
                 <Route path="/enter-room" element={<EnterRoom />} exact />
-                <Route path="/room" element={<Room />} exact />
+                <Route path="/room/:code" element={<Room />} exact />
+                <Route path="/my-questions" element={<MyQuestions />} exact />
                 <Route path="/update-email" element={<UpdateEmail />} exact />
                 <Route path="/update-name" element={<UpdateName />} exact />
                 <Route path="/update-password" element={<UpdatePassword />} exact />

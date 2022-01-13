@@ -5,12 +5,9 @@ import Question from '../../components/Question';
 import ContainerPage from '../../components/ContainerPage';
 import InformationContainer from '../../components/InformationContainer';
 
-import { ContainerQuestion, Button } from "./styles";
-
 const Room = () => {
     const [admin] = useState(true);
     const [questions] = useState([
-        "João",
         "João",
         "João",
         "João",
@@ -21,36 +18,14 @@ const Room = () => {
             <Header admin={admin} />
             <ContainerPage>
 
-                <h1>Sala React</h1>
-                {
-                    !admin ? (
-                        <ContainerQuestion>
-                            <textarea placeholder="O que você quer perguntar?"></textarea>
-                            <div>
-                                <strong>João Pedro</strong>
-                                <Button>Enviar Pergunta</Button>
-                            </div>
-                        </ContainerQuestion>
-                    ) : null
-                }
                 {
                     questions.length === 0 ? (
                         <InformationContainer>
                             <img src="images/empty-questions.svg" alt="" />
                             <h2>Nenhuma pergunta por aqui</h2>
-                            {
-                                admin ? (
-                                    <span>
-                                        Envie o código desta sala para seus amigos e comece a responder perguntas!
-                                    </span>
-                                ) :
-        
-                                (
-                                    <span>
-                                        Seja a primeira pessoa a fazer uma pergunta!
-                                    </span>
-                                )
-                            }
+                            <span>
+                                Entre em uma sala e comece a perguntar!
+                            </span>
                         </InformationContainer>
                     ) :
 
