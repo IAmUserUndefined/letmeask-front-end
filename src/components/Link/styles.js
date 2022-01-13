@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-const Strong = styled.strong`
+const LinkStyle = styled.strong`
     cursor: pointer;
     color: #835afd;
     margin-left: 5px;
     text-decoration: underline;
 `;
 
-export default Strong;
+export default LinkStyle;

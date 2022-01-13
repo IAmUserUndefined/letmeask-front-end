@@ -9,7 +9,7 @@ const ContainerMainStyle = styled.main`
     > div {
         width: 100%;
         height: 100vh;
-        padding: 4rem;
+        padding: 2rem;
         display: flex;
         flex-direction: column;
         justify-content: center;

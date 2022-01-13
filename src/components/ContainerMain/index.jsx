@@ -7,7 +7,7 @@ const ContainerMain = ({ children }) => {
         <>
             <ContainerMainStyle>
                 <div>
-                    <img src="images/illustration.svg" alt="" />
+                    <img src="images/illustration.svg" alt="Ilustração" />
                     <h1>Toda pergunta tem uma resposta.</h1>
                     <span>Aprenda e compartilhe conhecimento com outras pessoas</span>
                 </div>

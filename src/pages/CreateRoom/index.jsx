@@ -1,19 +1,14 @@
 import React from 'react';
-import { useNavigate } from "react-router-dom";
 
 import ContainerMain from "../../components/ContainerMain";
 import Logo from "../../components/Logo";
 import FormInput from "../../components/FormInput";
 import FormButton from "../../components/FormButton";
+import Link from "../../components/Link";
 
 import Form from "../../styles/form";
 
-import Strong from './styles';
-
-const CreateRoom = () => {
-    const navigate = useNavigate();
-    const handleLink = () => navigate("/enter-room");
-    
+const CreateRoom = () => {    
     return ( 
         <>
             <ContainerMain>
@@ -28,10 +23,13 @@ const CreateRoom = () => {
                         Criar Sala
                     </FormButton>
 
-                    <span>
+                    <Link link={"/enter-room"}>
                         Quer entrar em uma sala já existente?
-                        <Strong onClick={() => handleLink()}>Clique aqui</Strong>
-                    </span>
+                    </Link>
+
+                    <Link link={"/config-user"}>
+                        Acessar configurações do usuário?
+                    </Link>
                 </Form>
             </ContainerMain>
         </>
