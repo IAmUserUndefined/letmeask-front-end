@@ -8,7 +8,11 @@ import FormButton from "../../components/FormButton";
 
 import Form from "../../styles/form";
 
+import { useModal } from "../../providers/ModalProvider";
+
 const Login = () => {
+    const { handleShowModal } = useModal();
+
     return ( 
         <>
             <ContainerMain>
@@ -20,7 +24,7 @@ const Login = () => {
                     <FormInput type="email" name="email" placeholder="Email" />
                     <FormInput type="password" name="password" placeholder="Senha" />
 
-                    <FormButton>
+                    <FormButton onClick={() => handleShowModal("Teste de Modal")}>
                         Login
                     </FormButton>
 

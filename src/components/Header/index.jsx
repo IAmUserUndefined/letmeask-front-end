@@ -36,16 +36,18 @@ const Header = ({ admin }) => {
                 <NavigationContainer left={left}>
                     <ul>
 
-                        <li>
-                            <CodeRoomCopy onClick={() => copyRoomCodeToClipboard()}>
-                                <span>
-                                    <img src={Copy} alt="Símbolo de Copia e Cola" />
-                                </span>
-                                <span>
-                                    <strong>Sala {code}</strong>
-                                </span>
-                            </CodeRoomCopy>
-                        </li>
+                        {                        
+                            pathname !== "/my-questions" ? (<li>
+                                <CodeRoomCopy onClick={() => copyRoomCodeToClipboard()}>
+                                    <span>
+                                        <img src={Copy} alt="Símbolo de Copia e Cola" />
+                                    </span>
+                                    <span>
+                                        <strong>Sala {code}</strong>
+                                    </span>
+                                </CodeRoomCopy>
+                            </li>) : null
+                        }
 
                         {
                             admin && pathname !== "/my-questions" ? (
