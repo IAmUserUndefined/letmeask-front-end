@@ -50,7 +50,7 @@ const Header = ({ admin }) => {
                             ) : null
                         }
                         <li>
-                            <HeaderButton onClick={() => handleLink("/config-user")}>
+                            <HeaderButton onClick={() => handleLink("/update-email")}>
                                 Configurações do Usuário
                             </HeaderButton>
                         </li>

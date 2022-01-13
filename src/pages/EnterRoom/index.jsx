@@ -27,7 +27,7 @@ const EnterRoom = () => {
                         Quer criar uma sala?
                     </Link>
                     
-                    <Link link={"/config-user"}>
+                    <Link link={"/update-email"}>
                         Acessar configurações do usuário?
                     </Link>
                 </Form>
