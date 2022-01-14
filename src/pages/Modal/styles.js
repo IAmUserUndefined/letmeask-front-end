@@ -71,6 +71,17 @@ export const MessageModal = styled.h3`
     }
 `;
 
+export const MessageModalMain = styled.h3`
+    color: #000;
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 4rem;
+
+    @media (max-width: 576px) {
+      font-size: 1.2rem;
+    }
+`;
+
 export const ContainerButton = styled.div`
     display: flex;
     justify-content: space-between;

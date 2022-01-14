@@ -2,7 +2,16 @@ import React from "react";
 import { MdOutlineDelete } from "react-icons/md";
 import { TiDeleteOutline } from "react-icons/ti";
 
-import { ModalContainer, ModalStyle, Button, ContainerButton, ButtonDelete, ButtonCancel, MessageModal } from "./styles";
+import { 
+          ModalContainer, 
+          ModalStyle, 
+          Button, 
+          ContainerButton, 
+          ButtonDelete, 
+          ButtonCancel, 
+          MessageModal,
+          MessageModalMain 
+        } from "./styles";
 
 import { useModal } from "../../providers/ModalProvider";
 
@@ -48,7 +57,7 @@ const Modal = () => {
           {
             type !== "room" && type !== "question" ? (
               <ModalStyle id="modal">
-                <MessageModal id="message">{message}</MessageModal>
+                <MessageModalMain id="message">{message}</MessageModalMain>
                 <Button>Ok</Button>
               </ModalStyle>
             ) : null
