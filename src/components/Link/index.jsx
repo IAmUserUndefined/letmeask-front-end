@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import LinkStyle from "./styles";
 
-const Link = ({ children, link }) => {
+const Link = ({ children, link, onClick }) => {
     const navigate = useNavigate();
     const handleLink = () => navigate(link);
 
@@ -11,7 +11,9 @@ const Link = ({ children, link }) => {
         <>
             <div>
                 { children }
-                <LinkStyle onClick={() => handleLink()}>
+                <LinkStyle onClick={
+                    link ? () => handleLink() : onClick
+                }>
                     Clique aqui
                 </LinkStyle>
             </div>

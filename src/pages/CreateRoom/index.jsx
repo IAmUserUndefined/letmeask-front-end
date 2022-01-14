@@ -8,7 +8,12 @@ import Link from "../../components/Link";
 
 import Form from "../../styles/form";
 
+import { useAuth } from "../../providers/AuthProvider";
+
 const CreateRoom = () => {    
+
+    const { handleLogout } = useAuth();
+
     return ( 
         <>
             <ContainerMain>
@@ -33,6 +38,10 @@ const CreateRoom = () => {
 
                     <Link link={"/update-email"}>
                         Quer acessar configurações do usuário?
+                    </Link>
+
+                    <Link onClick={() => handleLogout()}>
+                        Quer sair de sua sessão?
                     </Link>
                     
                 </Form>
