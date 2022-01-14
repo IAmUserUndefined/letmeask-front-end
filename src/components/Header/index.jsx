@@ -8,21 +8,42 @@ import Copy from "../../assets/images/copy.svg";
 
 import { AiOutlineMenu, AiOutlineCloseCircle } from "react-icons/ai";
 
+import api from "../../services/api";
+import history from "../../services/history";
+
+import { useModal } from "../../providers/ModalProvider";
+import { useAuth } from "../../providers/AuthProvider";
+
 const Header = ({ admin }) => {
+    const { handleLogout } = useAuth();
+    const { handleShowModal } = useModal();
     const { code } = useParams();
+    const { pathname } = useLocation();
     const navigate = useNavigate();
     const handleLink = (link) => navigate(link);
-    const { pathname } = useLocation();
     const copyRoomCodeToClipboard = () => navigator.clipboard.writeText(code);
     const [left, setLeft] = useState(`${-1000}px`);
-    const [icon, setIcon] = useState(<AiOutlineMenu onClick={() => showMenu()} />)
-    const showMenu = () => {
+    const [icon, setIcon] = useState(<AiOutlineMenu onClick={() => handleShowMenu()} />);
+    const handleShowMenu = () => {
         setIcon(<AiOutlineCloseCircle onClick={() => {
-            setIcon(<AiOutlineMenu onClick={() => showMenu()} />);
+            setIcon(<AiOutlineMenu onClick={() => handleShowMenu()} />);
             setLeft(`${-1000}px`);
         }} />);
         setLeft(0);
     };
+    const handleRemoveRoom = async () => {
+            await api
+            .delete(`/room/${code}`)
+            .then(({ data }) => {
+                handleLink("/create-room");
+                handleShowModal(data.response);
+            })
+            .catch(({ response }) =>
+              response
+                ? handleShowModal(response.data.response)
+                : handleShowModal("Erro no Servidor")
+            );
+    }  
 
     return (
         <>
@@ -52,15 +73,15 @@ const Header = ({ admin }) => {
                         {
                             admin && pathname !== "/my-questions" ? (
                                 <li>
-                                    <HeaderButton>
+                                    <HeaderButton onClick={() => handleRemoveRoom()}>
                                         Encerrar Sala
                                     </HeaderButton>
                                 </li>
                             ) :
                             (
                                 <li>
-                                    <HeaderButton onClick={() => handleLink(`/room/${code}`)}>
-                                        Voltar a minha sala
+                                    <HeaderButton onClick={() => history.back()}>
+                                        Voltar
                                     </HeaderButton>
                                 </li>
                             )
@@ -76,7 +97,7 @@ const Header = ({ admin }) => {
                             </HeaderButton>
                         </li>
                         <li>
-                            <HeaderButton onClick={() => handleLink("/")}>
+                            <HeaderButton onClick={() => handleLogout()}>
                                 Sair
                             </HeaderButton>
                         </li>

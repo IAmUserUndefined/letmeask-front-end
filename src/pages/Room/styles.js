@@ -6,12 +6,8 @@ export const ContainerQuestion = styled.div`
 
     > div {
         display: flex;
-        justify-content: space-between;
+        justify-content: end;
         align-items: center;
-
-        > strong {
-            text-indent: 5px;
-        }
     }
 
     > textarea {

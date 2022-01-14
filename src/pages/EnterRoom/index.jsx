@@ -1,30 +1,60 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 import ContainerMain from "../../components/ContainerMain";
 import Logo from "../../components/Logo";
 import FormInput from "../../components/FormInput";
 import FormButton from "../../components/FormButton";
 import Link from "../../components/Link";
+import LoadingGif from "../../components/LoadingGif";
 
 import Form from "../../styles/form";
 
 import { useAuth } from "../../providers/AuthProvider";
+import { useModal } from "../../providers/ModalProvider";
+
+import api from "../../services/api";
 
 const EnterRoom = () => {
     const { handleLogout } = useAuth();
+    const { handleShowModal } = useModal();
+    const navigate = useNavigate();
+    const handleLink = (link) => navigate(link);
+    const [buttonChildren, setButtonChidren] = useState("Entra na Sala");
+    const handleEnterRoom = async () => {
+        const form = document.forms.enterRoom;
+        const { roomCode } = form;
+
+        if(!roomCode.value)
+            return handleShowModal("Preencha o código da sala");
+
+        setButtonChidren(<LoadingGif />);
+
+        await api
+        .get(`/room/${roomCode.value}`)
+        .then(({ data }) => (
+            data.response ? handleLink(`/room/${roomCode.value}`) : handleShowModal("Essa sala não existe")
+        ))
+        .catch(({ response }) =>
+            response === undefined ? console.log("Erro no servidor") : null
+        );
+
+        roomCode.value = "";
+        setButtonChidren("Entra na Sala");
+    }
 
     return ( 
         <>
             <ContainerMain>
-                <Form name="login">
+                <Form name="enterRoom">
                     <Logo />
 
-                    <h2>Entra em uma sala</h2>
+                    <h2>Entra na Sala</h2>
                     
-                    <FormInput type="text" name="roomName" placeholder="Código da Sala" />
+                    <FormInput type="text" name="roomCode" placeholder="Código da Sala" />
 
-                    <FormButton>
-                        Entrar na Sala
+                    <FormButton onClick={() => handleEnterRoom()}>
+                        {buttonChildren}
                     </FormButton>
 
                     <Link link={"/create-room"}>

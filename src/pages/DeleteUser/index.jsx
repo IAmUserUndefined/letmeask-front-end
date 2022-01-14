@@ -97,7 +97,10 @@ const DeleteUser = () => {
                         {buttonChidren} 
                     </FormButton>
 
-                    <Link link="/create-room">Gostaria de criar uma sala?</Link>
+                    <Link link="/create-room">Gostaria de criar ou voltar para sua sala?</Link>
+                    <Link link={"/enter-room"}>
+                        Quer entrar em uma sala já existente?
+                    </Link>
                     <Link link="/update-email">Quer atualizar seu email?</Link>
                     <Link link="/update-name">Quer atualizar seu nome?</Link>
                     <Link link="/update-password">Quer atualizar sua senha?</Link>

@@ -1,25 +1,48 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from "react-router-dom";
 
 import { ContainerQuestion, ContentQuestion, ContainerResponse, Footer } from './styles';
 
 import { MdOutlineDelete, MdOutlineQuestionAnswer } from "react-icons/md";
 
-const Question = ({ admin, response }) => {
+import api from "../../services/api";
+
+const Question = ({ admin, userId, question, response  }) => {
     const { pathname } = useLocation();
+    const [name, setName] = useState("");
+
+    useEffect(() => {
+
+        let mounted = true;
+
+        const fetchName = async () => {
+            await api
+            .post("/get-name", {
+                userId: userId,
+              })
+            .then(({ data }) => (mounted ? setName(data.response) : null))
+            .catch(({ response }) =>
+                response === undefined ? console.log("Erro no servidor") : null
+            );
+        };
+  
+        fetchName();
+
+      return () => mounted = false;
+
+  
+    }, [userId]);
+
     return ( 
         <>
             <ContainerQuestion>
                 <ContentQuestion>
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
-                    Qui dolorem quaerat architecto consequatur, saepe a, cup
-                    iditate nisi quidem, itaque molestiae quasi optio. Placeat, 
-                    provident nesciunt quaerat animi explicabo quisquam commodi?
+                        {question}
                 </ContentQuestion>
                 <Footer>
                     <div>
                         <strong>
-                            João Pedro
+                            {name}
                         </strong>
                     </div>
                     <div>
