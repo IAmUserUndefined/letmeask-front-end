@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import Header from "../../components/Header";
 import Question from '../../components/Question';
@@ -18,6 +18,7 @@ import api from "../../services/api";
 const Room = () => {
     const { handleShowModal } = useModal();
     const { code } = useParams();
+    const navigate = useNavigate();
     const [admin, setAdmin] = useState(false);
     const [roomName, setRoomName] = useState();
     const [buttonChildren, setButtonChidren] = useState("Enviar Pergunta");
@@ -75,11 +76,10 @@ const Room = () => {
                 .then(({ data }) => (
                     mounted ? setRoomName(data.response.name) : null
                 ))
-                .catch(({ response }) =>
-                response
-                    ? handleShowModal(response.data.response)
-                    : handleShowModal("Erro no Servidor")
-                );
+                .catch(({ response }) => {
+                    handleShowModal("Houve um problema com essa sala")
+                    navigate("/create-room")
+                });
         }
     
         handleAdmin();
@@ -87,7 +87,7 @@ const Room = () => {
         fetchQuestions();
     
         return () => mounted = false;
-    }, [questions, handleShowModal, code]);
+    }, [questions, handleShowModal, code, navigate]);
 
     return ( 
         <>
