@@ -36,11 +36,7 @@ const Question = ({ admin, questionId, userId, question, response  }) => {
           handleCloseResponseField();
     }
     const handleDeleteQuestion = async () => {
-        await api
-          .delete(`/question/${questionId}`)
-          .catch(({ response }) =>
-              response === undefined ? handleShowModal("Erro no servidor") : null
-          );
+        handleShowModal("", "question", questionId);
     }
 
     useEffect(() => {

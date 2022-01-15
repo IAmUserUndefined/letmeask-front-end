@@ -1,14 +1,16 @@
 import { useState } from "react";
 
 const useModal = () => {
-  const [message, setMessage] = useState("")
-  const [type, setType] = useState("")
-  const [display, setDisplay] = useState("none")
+  const [message, setMessage] = useState("");
+  const [type, setType] = useState("");
+  const [display, setDisplay] = useState("none");
+  const [id, setId] = useState("");
 
-  const handleShowModal = (message, type) => {
+  const handleShowModal = (message, type, id) => {
     setType(type);
-    setMessage(message)
-    setDisplay("flex")
+    setMessage(message);
+    setDisplay("flex");
+    setId(id);
   }
 
   const handleCloseModal = (e) => {
@@ -17,7 +19,7 @@ const useModal = () => {
     }
   }
 
-  return { message, display, type, handleShowModal, handleCloseModal }
+  return { message, display, type, id, handleShowModal, handleCloseModal }
 }
 
 export default useModal;

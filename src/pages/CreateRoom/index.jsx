@@ -51,11 +51,14 @@ const CreateRoom = () => {
     };
 
     useEffect(() => {
+      let mounted = true;
+
       const handleShowRoom = async () => {
         await api
         .get(`/room-code`)
         .then(({ data }) => {
-          if(data.response) handleLink(`/room/${data.response}`);
+          if(mounted)
+            if(data.response) handleLink(`/room/${data.response}`);
         })
         .catch(({ response }) =>
           response
@@ -63,7 +66,10 @@ const CreateRoom = () => {
             : handleShowModal("Erro no Servidor")
         );
       };
+
       handleShowRoom();
+
+      return () => mounted = false;
     });
 
     return ( 

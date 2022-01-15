@@ -8,7 +8,6 @@ import Copy from "../../assets/images/copy.svg";
 
 import { AiOutlineMenu, AiOutlineCloseCircle } from "react-icons/ai";
 
-import api from "../../services/api";
 import history from "../../services/history";
 
 import { useModal } from "../../providers/ModalProvider";
@@ -32,17 +31,7 @@ const Header = ({ admin }) => {
         setLeft(0);
     };
     const handleRemoveRoom = async () => {
-            await api
-            .delete(`/room/${code}`)
-            .then(({ data }) => {
-                handleLink("/create-room");
-                handleShowModal(data.response);
-            })
-            .catch(({ response }) =>
-              response
-                ? handleShowModal(response.data.response)
-                : handleShowModal("Erro no Servidor")
-            );
+        handleShowModal("", "room", code);
     }  
 
     return (
