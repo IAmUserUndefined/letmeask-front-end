@@ -75,10 +75,11 @@ export const MessageModalMain = styled.h3`
     color: #000;
     font-size: 2rem;
     text-align: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 4rem;
 
     @media (max-width: 576px) {
       font-size: 1.2rem;
+      margin-bottom: 1.5rem;
     }
 `;
 
