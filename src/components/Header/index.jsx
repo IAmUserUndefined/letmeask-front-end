@@ -31,6 +31,7 @@ const Header = ({ admin }) => {
         setLeft(0);
     };
     const handleRemoveRoom = async () => {
+        setLeft(`${-1000}px`);
         handleShowModal("", "room", code);
     }  
 
