@@ -100,7 +100,7 @@ const Question = ({ admin, questionId, userId, question, response  }) => {
                             Cancelar
                         </ButtonCancel>
                         <ButtonResponse onClick={() => handleResponse()}>
-                            Responder Pergunta
+                            Responder
                         </ButtonResponse>
                     </div>
                 </ContainerResponseField>
