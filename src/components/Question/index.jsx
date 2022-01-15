@@ -1,15 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
-import { ContainerQuestion, ContentQuestion, ContainerResponse, Footer } from './styles';
+import { 
+    ContainerQuestion, ContentQuestion, ContainerResponse, ContainerResponseField, ButtonResponse, ButtonCancel, Footer 
+} from './styles';
 
 import { MdOutlineDelete, MdOutlineQuestionAnswer } from "react-icons/md";
 
+import { useModal } from "../../providers/ModalProvider";
+
 import api from "../../services/api";
 
-const Question = ({ admin, userId, question, response  }) => {
+const Question = ({ admin, questionId, userId, question, response  }) => {
     const { pathname } = useLocation();
+    const { code } = useParams();
+    const { handleShowModal } = useModal();
     const [name, setName] = useState("");
+    const [display, setDisplay] = useState("none");
+    const handleShowResponseField = () => setDisplay("block");
+    const handleCloseResponseField = () => setDisplay("none");
+    const handleResponse = async () => {
+        const response = document.getElementById("response");
+
+        if(!response.value)
+            return handleShowModal("Preencha o campo de resposta");
+
+        await api
+          .post(`/response/${code}/${questionId}`, {
+              response: response.value
+          })
+          .catch(({ response }) =>
+              response === undefined ? handleShowModal("Erro no servidor") : null
+          );
+
+          handleCloseResponseField();
+    }
+    const handleDeleteQuestion = async () => {
+        await api
+          .delete(`/question/${questionId}`)
+          .catch(({ response }) =>
+              response === undefined ? handleShowModal("Erro no servidor") : null
+          );
+    }
 
     useEffect(() => {
 
@@ -47,13 +79,14 @@ const Question = ({ admin, userId, question, response  }) => {
                     </div>
                     <div>
                         {
-                            admin && pathname !== "/my-questions" ? <MdOutlineQuestionAnswer /> : null
+                            admin && pathname !== "/my-questions" && !response 
+                                ? <MdOutlineQuestionAnswer onClick={() => handleShowResponseField()} /> : null
                         }
                         {
-                            admin && pathname !== "/my-questions" ? <MdOutlineDelete /> : null
+                            admin && pathname !== "/my-questions" ? <MdOutlineDelete onClick={() => handleDeleteQuestion()} /> : null
                         }
                         {
-                            pathname === "/my-questions" ? <MdOutlineDelete /> : null
+                            pathname === "/my-questions" ? <MdOutlineDelete onClick={() => handleDeleteQuestion()} /> : null
                         }
                     </div>
                 </Footer>
@@ -64,6 +97,17 @@ const Question = ({ admin, userId, question, response  }) => {
                         </ContainerResponse>
                     ) : null
                 }
+                <ContainerResponseField display={display}>
+                    <textarea placeholder="Digite sua resposta" id="response"></textarea>
+                    <div>
+                        <ButtonCancel onClick={() => handleCloseResponseField()}>
+                            Cancelar
+                        </ButtonCancel>
+                        <ButtonResponse onClick={() => handleResponse()}>
+                            Responder Pergunta
+                        </ButtonResponse>
+                    </div>
+                </ContainerResponseField>
             </ContainerQuestion>
         </>
      );

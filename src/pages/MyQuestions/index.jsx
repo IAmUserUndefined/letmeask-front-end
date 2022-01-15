@@ -11,7 +11,7 @@ import { useModal } from "../../providers/ModalProvider";
 
 import api from "../../services/api";
 
-const Room = () => {
+const MyQuestions = () => {
     const { handleShowModal } = useModal();
     const [questions, setQuestions] = useState([]);
 
@@ -52,6 +52,7 @@ const Room = () => {
                         (
                             <Question 
                             key={question.id} 
+                            questionId={question.id} 
                             userId={question.userId}
                             question={question.name} 
                             response={question.response} 
@@ -65,4 +66,4 @@ const Room = () => {
      );
 }
  
-export default Room;
+export default MyQuestions;

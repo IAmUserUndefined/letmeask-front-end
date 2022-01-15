@@ -108,6 +108,7 @@ const Room = () => {
                         (
                             <Question 
                                 key={question.id} 
+                                questionId={question.id} 
                                 userId={question.userId}
                                 question={question.name} 
                                 response={question.response} 
