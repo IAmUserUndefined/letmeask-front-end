@@ -11,11 +11,11 @@ const LoadigGifStyle = styled.div`
     }
 
     margin: 0 auto;
-    border: 2px solid #000;
+    border: 3px solid #000;
     border-radius: 50%;
     border-top-color: rgba(0,0,0,0.2);
-    height: 18px;
-    width: 18px;
+    height: 16px;
+    width: 16px;
     animation: loading 2s linear infinite;
 `;
 
