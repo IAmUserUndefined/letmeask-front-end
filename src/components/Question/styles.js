@@ -27,7 +27,7 @@ export const ContainerResponseField = styled.div`
         border: 0;
         padding: 16px;
         border-radius: 8px;
-        background: #fefefe;
+        background: #f0f0f5;
         box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
         resize: vertical;
         min-height: 130px;
