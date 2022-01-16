@@ -1,6 +1,6 @@
 # Letmeask - Front-end
 
-# <a href="https://letmeask-jp-dev.herokuapp.com/">🔗 Letmeask</a>
+# <a href="https://letmeaskjpdev.herokuapp.com/">🔗 Letmeask</a>
 <p>🚀 Aplicação voltada para a interação de usuários por meio de salas de perguntas e respostas</p>
 
 # Status da Aplicação
