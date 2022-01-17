@@ -19,8 +19,9 @@ const Question = ({ admin, questionId, userId, question, response  }) => {
     const [display, setDisplay] = useState("none");
     const handleShowResponseField = () => setDisplay("block");
     const handleCloseResponseField = () => setDisplay("none");
+    const handleDeleteQuestion = async () => handleShowModal("", "question", questionId);
     const handleResponse = async () => {
-        const response = document.getElementById("response");
+        const response = document.getElementById(`response${questionId}`);
 
         if(!response.value)
             return handleShowModal("Preencha o campo de resposta");
@@ -29,14 +30,13 @@ const Question = ({ admin, questionId, userId, question, response  }) => {
           .post(`/response/${code}/${questionId}`, {
               response: response.value
           })
-          .catch(({ response }) =>
-              response === undefined ? handleShowModal("Erro no servidor") : null
-          );
+        .catch(({ response }) =>
+            response
+                ? handleShowModal(response.data.response)
+                : handleShowModal("Erro no Servidor")
+        );
 
-          handleCloseResponseField();
-    }
-    const handleDeleteQuestion = async () => {
-        handleShowModal("", "question", questionId);
+        handleCloseResponseField();
     }
 
     useEffect(() => {
@@ -49,8 +49,8 @@ const Question = ({ admin, questionId, userId, question, response  }) => {
                 userId: userId,
               })
             .then(({ data }) => (mounted ? setName(data.response) : null))
-            .catch(({ response }) =>
-                response === undefined ? console.log("Erro no servidor") : null
+            .catch(() =>
+                console.log("Erro no servidor")
             );
         };
   
@@ -89,20 +89,22 @@ const Question = ({ admin, questionId, userId, question, response  }) => {
                 {
                     response ? (
                         <ContainerResponse>
-                            Resposta: {response}
+                            {response}
                         </ContainerResponse>
                     ) : null
                 }
                 <ContainerResponseField display={display}>
-                    <textarea placeholder="Digite sua resposta" id="response"></textarea>
-                    <div>
-                        <ButtonCancel onClick={() => handleCloseResponseField()}>
-                            Cancelar
-                        </ButtonCancel>
-                        <ButtonResponse onClick={() => handleResponse()}>
-                            Responder
-                        </ButtonResponse>
-                    </div>
+                    <form>
+                        <textarea placeholder="Digite sua resposta" id={`response${questionId}`}></textarea>
+                        <div>
+                            <ButtonCancel type="button" onClick={() => handleCloseResponseField()}>
+                                Cancelar
+                            </ButtonCancel>
+                            <ButtonResponse type="button" onClick={() => handleResponse()}>
+                                Responder
+                            </ButtonResponse>
+                        </div>
+                    </form>
                 </ContainerResponseField>
             </ContainerQuestion>
         </>

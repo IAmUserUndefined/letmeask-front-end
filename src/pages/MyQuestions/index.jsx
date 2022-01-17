@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Header from "../../components/Header";
 import Question from '../../components/Question';
@@ -14,6 +15,7 @@ import api from "../../services/api";
 const MyQuestions = () => {
     const { handleShowModal } = useModal();
     const [questions, setQuestions] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         let mounted = true;
@@ -22,15 +24,16 @@ const MyQuestions = () => {
           await api
             .get(`/question`)
             .then(({ data }) => (mounted ? setQuestions(data.response) : null))
-            .catch(({ response }) =>
-              response === undefined ? handleShowModal("Erro no servidor, as perguntas não podem ser apresentadas") : null
-            );
+            .catch(() => {
+                handleShowModal("Erro no servidor, as perguntas não podem ser apresentadas");
+                navigate("/create-room");
+            });
         };
     
         fetchQuestions();
     
         return () => mounted = false;
-    }, [questions, handleShowModal]);
+    }, [questions, handleShowModal, navigate]);
 
     return ( 
         <>
@@ -40,7 +43,7 @@ const MyQuestions = () => {
                 {
                     questions.length === 0 ? (
                         <InformationContainer>
-                            <img src={EmptyQuestions} alt="" />
+                            <img src={EmptyQuestions} alt="Imagem representando balões de pergunta" />
                             <h2>Nenhuma pergunta por aqui</h2>
                             <span>
                                 Entre em uma sala e comece a perguntar!

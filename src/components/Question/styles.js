@@ -22,7 +22,7 @@ export const ContainerResponseField = styled.div`
     font-weight: bold;
     display: ${({ display }) => `${display}`};
 
-    > textarea {
+    > form textarea {
         width: 100%;
         border: 0;
         padding: 16px;
@@ -34,7 +34,7 @@ export const ContainerResponseField = styled.div`
         margin-bottom: 1rem;
     }
 
-    > div {
+    > form div {
         display: flex;
         flex-direction: row;
         justify-content: end;

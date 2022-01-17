@@ -22,19 +22,20 @@ import api from "../../services/api";
 const Modal = () => {
   const { message, display, handleShowModal, handleCloseModal, type, id } = useModal();
   const navigate = useNavigate();
-  const handleLink = (link) => navigate(link);
   const handleQuestionDelete = async () => {
       await api
       .delete(`/question/${id}`)
       .catch(({ response }) =>
-          response === undefined ? handleShowModal("Erro no servidor") : null
+        response
+          ? handleShowModal(response.data.response)
+          : handleShowModal("Erro no Servidor")
       );
   }
   const handleRemoveRoom = async () => {
     await api
     .delete(`/room/${id}`)
     .then(({ data }) => {
-        handleLink("/create-room");
+        navigate("/create-room");
         handleShowModal(data.response);
     })
     .catch(({ response }) =>

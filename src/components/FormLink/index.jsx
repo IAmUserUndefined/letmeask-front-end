@@ -6,12 +6,10 @@ import FormLinkStyle from './styles';
 const FormLink = ( { link, children } ) => {
     const navigate = useNavigate();
 
-    const handleLink = (link) => navigate(link);
-
     return ( 
         <>
             <div>
-                <FormLinkStyle onClick={() => handleLink(link)}>
+                <FormLinkStyle onClick={() => navigate(link)}>
                     { children }
                 </FormLinkStyle>
             </div>

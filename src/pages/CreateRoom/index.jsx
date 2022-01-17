@@ -20,8 +20,6 @@ const CreateRoom = () => {
     const { handleShowModal } = useModal();
     const { handleLogout } = useAuth();
     const navigate = useNavigate();
-    const handleLink = (link) => navigate(link);
-
     const handleCreateRoom = async () => {
       setButtonChildren(<LoadingGif />);
   
@@ -41,7 +39,7 @@ const CreateRoom = () => {
         .then(({ data }) => {
           roomName.value = "";
           setButtonChildren("Criar Sala");
-          handleLink(`/room/${data.response}`);
+          navigate(`/room/${data.response}`);
         })
         .catch(({ response }) =>
           response
@@ -58,12 +56,12 @@ const CreateRoom = () => {
         .get(`/room-code`)
         .then(({ data }) => {
           if(mounted)
-            if(data.response) handleLink(`/room/${data.response}`);
+            if(data.response) navigate(`/room/${data.response}`);
         })
         .catch(({ response }) =>
           response
             ? handleShowModal(response.data.response)
-            : handleShowModal("Erro no Servidor")
+            : handleShowModal("Erro no Servidor, sua sala não pode ser acessada")
         );
       };
 

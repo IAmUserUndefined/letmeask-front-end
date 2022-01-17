@@ -19,7 +19,6 @@ const EnterRoom = () => {
     const { handleLogout } = useAuth();
     const { handleShowModal } = useModal();
     const navigate = useNavigate();
-    const handleLink = (link) => navigate(link);
     const [buttonChildren, setButtonChidren] = useState("Entra na Sala");
     const handleEnterRoom = async () => {
         const form = document.forms.enterRoom;
@@ -33,10 +32,12 @@ const EnterRoom = () => {
         await api
         .get(`/room/${roomCode.value}`)
         .then(({ data }) => (
-            data.response ? handleLink(`/room/${roomCode.value}`) : handleShowModal("Essa sala não existe")
+            data.response ? navigate(`/room/${roomCode.value}`) : handleShowModal("Essa sala não existe")
         ))
         .catch(({ response }) =>
-            response === undefined ? console.log("Erro no servidor") : null
+            response
+                ? handleShowModal(response.data.response)
+                : handleShowModal("Erro no Servidor")
         );
 
         roomCode.value = "";

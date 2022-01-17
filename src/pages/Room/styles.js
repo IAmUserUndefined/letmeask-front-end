@@ -4,13 +4,13 @@ export const ContainerQuestion = styled.div`
     margin: 2rem auto;
     max-width: 600px;
 
-    > div {
+    > form div {
         display: flex;
         justify-content: end;
         align-items: center;
     }
 
-    > textarea {
+    > form textarea {
         width: 100%;
         border: 0;
         padding: 16px;

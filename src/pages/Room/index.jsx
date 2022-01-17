@@ -18,14 +18,13 @@ import api from "../../services/api";
 const Room = () => {
     const { handleShowModal } = useModal();
     const { code } = useParams();
-    const navigate = useNavigate();
     const [admin, setAdmin] = useState(false);
     const [roomName, setRoomName] = useState();
     const [buttonChildren, setButtonChidren] = useState("Enviar Pergunta");
     const [questions, setQuestions] = useState([]);
-
-    const handleQuestion = async () => {
-        const question = document.getElementById("response");
+    const navigate = useNavigate();
+    const handleCreateQuestion = async () => {
+        const question = document.getElementById("question");
 
         if(!question.value)
             return handleShowModal("Preencha o campo de questão");
@@ -33,12 +32,14 @@ const Room = () => {
         setButtonChidren(<LoadingGif />);
 
         await api
-        .post(`/question/${code}`, {
-            question: question.value
-        })
-        .catch(({ response }) =>
-          response === undefined ? console.log("Erro no servidor") : null
-        );
+            .post(`/question/${code}`, {
+                question: question.value
+            })
+            .catch(({ response }) =>
+                response
+                  ? handleShowModal(response.data.response)
+                  : handleShowModal("Erro no Servidor")
+            );
 
         question.value = "";
         setButtonChidren("Enviar Pergunta");
@@ -48,27 +49,6 @@ const Room = () => {
     useEffect(() => {
         let mounted = true;
   
-        const handleAdmin = async () => {
-            await api
-              .get(`/room-code`)
-              .then(({ data }) => { 
-                  if(mounted) 
-                    return data.response === code ? setAdmin(true) : null;
-              })
-              .catch(({ response }) =>
-                response === undefined ? console.log("Erro no servidor") : null
-              );
-        };
-    
-        const fetchQuestions = async () => {
-          await api
-            .get(`/question/${code}`)
-            .then(({ data }) => (mounted ? setQuestions(data.response) : null))
-            .catch(({ response }) =>
-              response === undefined ? console.log("Erro no servidor") : null
-            );
-        };
-
         const handleRoomName = async () => {
             await api
                 .get(`/room/${code}`, {
@@ -76,18 +56,39 @@ const Room = () => {
                 .then(({ data }) => (
                     mounted ? setRoomName(data.response.name) : null
                 ))
-                .catch(({ response }) => {
-                    handleShowModal("Houve um problema com essa sala")
-                    navigate("/create-room")
+                .catch(() => {
+                    navigate("/create-room");
+                    handleShowModal("Essa sala não pode ser acessada")
                 });
         }
+
+        const handleAdmin = async () => {
+            await api
+              .get(`/room-code`)
+              .then(({ data }) => { 
+                  if(mounted) 
+                    return data.response === code ? setAdmin(true) : null;
+              })
+              .catch(() =>
+                console.log("Erro no servidor")
+            );
+        };
     
-        handleAdmin();
+        const fetchQuestions = async () => {
+          await api
+            .get(`/question/${code}`)
+            .then(({ data }) => (mounted ? setQuestions(data.response) : null))
+            .catch(() =>
+                console.log("Erro no servidor")
+            );
+        };
+    
         handleRoomName();
+        handleAdmin();
         fetchQuestions();
     
         return () => mounted = false;
-    }, [questions, handleShowModal, code, navigate]);
+    }, [questions, code, navigate, handleShowModal]);
 
     return ( 
         <>
@@ -98,10 +99,12 @@ const Room = () => {
                 {
                     !admin ? (
                         <ContainerQuestion>
-                            <textarea placeholder="O que você quer perguntar?" id="response"></textarea>
-                            <div>
-                                <Button onClick={() => handleQuestion()}>{buttonChildren}</Button>
-                            </div>
+                            <form>
+                                <textarea placeholder="O que você quer perguntar?" id="question"></textarea>
+                                <div>
+                                    <Button type="button" onClick={() => handleCreateQuestion()}>{buttonChildren}</Button>
+                                </div>
+                            </form>
                         </ContainerQuestion>
                     ) : null
                 }
@@ -109,7 +112,7 @@ const Room = () => {
                 {
                     questions.length === 0 ? (
                         <InformationContainer>
-                            <img src={EmptyQuestions} alt="Ilustração" />
+                            <img src={EmptyQuestions} alt="Imagem representando balões de pergunta" />
                             <h2>Nenhuma pergunta por aqui</h2>
                             {
                                 admin ? (
