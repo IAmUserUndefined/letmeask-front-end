@@ -19,35 +19,25 @@ import { useAuth } from "../../providers/AuthProvider";
 const DeleteUser = () => {
     const { handleShowModal } = useModal();
     const { handleLogout } = useAuth();
+    const [formValues, setFormValues] = useState({});
     const [buttonChidren, setButtonChildren] = useState("Excluir Usuário");
 
-    const handleDeleteUser = async () => {
+    const handleDeleteUser = async (e) => {
+      e.preventDefault();
+
+      const { password, passwordConfirm } = e.target;
+  
+      if (!password.value || !passwordConfirm.value)
+        return handleShowModal("Preencha todos os campos");
+  
+      const { result } = isPasswordValid(password.value);
+  
+      if (!result) return handleShowModal("Senha incorreta");
+  
+      if (password.value !== passwordConfirm.value)
+        return handleShowModal("As senhas não coincidem");
+  
         setButtonChildren(<LoadingGif />);
-    
-        const form = document.forms.deleteUser;
-    
-        let { password, passwordConfirm } = form;
-    
-        if (!password.value || !passwordConfirm.value) {
-          setButtonChildren("Excluir Usuário");
-          return handleShowModal("Preencha todos os campos");
-        }
-    
-        const { result } = isPasswordValid(password.value);
-    
-        if (!result) {
-          setButtonChildren("Excluir Usuário");
-          password.value = "";
-          passwordConfirm.value = "";
-          return handleShowModal("Senha incorreta");
-        }
-    
-        if (password.value !== passwordConfirm.value) {
-          setButtonChildren("Excluir Usuário");
-          password.value = "";
-          passwordConfirm.value = "";
-          return handleShowModal("As senhas não coincidem");
-        }
     
         await api
           .delete(`/user/delete`, {
@@ -57,17 +47,15 @@ const DeleteUser = () => {
             },
           })
           .then(({ data }) => {
+            setFormValues({});
             handleLogout();
             handleShowModal(data.response);
           })
           .catch(({ response }) =>
             response
               ? handleShowModal(response.data.response)
-              : handleShowModal("Erro no Servidor")
+              : handleShowModal("Erro no Servidor, tente novamente mais tarde")
           );
-    
-        password.value = "";
-        passwordConfirm.value = "";
     
         setButtonChildren("Excluir Usuário");
       };
@@ -75,7 +63,7 @@ const DeleteUser = () => {
     return ( 
         <>
             <ContainerMain>
-                <Form name="deleteUser">
+              <Form onSubmit={handleDeleteUser}>
                     <Logo />
                     
                     <h2>Excluir Usuário</h2>
@@ -84,16 +72,19 @@ const DeleteUser = () => {
                         type="password" 
                         placeholder="Senha" 
                         name="password" 
-                    
+                        formValues={formValues}
+                        setFormValues={setFormValues}
                     />
 
                     <FormInput
                         type="password"
                         placeholder="Confirmação de Senha"
                         name="passwordConfirm"
+                        formValues={formValues}
+                        setFormValues={setFormValues}
                     />
 
-                    <FormButton onClick={() => handleDeleteUser()}>
+                    <FormButton type="submit">
                         {buttonChidren} 
                     </FormButton>
 

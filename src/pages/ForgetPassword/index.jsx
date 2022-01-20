@@ -16,33 +16,31 @@ import isEmailValid from "../../utils/isEmailValid";
 import { useModal } from "../../providers/ModalProvider";
 
 const Login = () => {
-
+  const [formValues, setFormValues] = useState({});
   const [buttonChildren, setButtonChildren] = useState("Enviar Email");
   const { handleShowModal } = useModal();
 
-  const handleForgetPassword = async () => {
-    setButtonChildren(<LoadingGif />);
-
-    const form = document.forms.forgetPassword;
-
-    let { email } = form;
+  const handleForgetPassword = async (e) => {
+    e.preventDefault();
+    
+    const { email } = e.target;
 
     if (!email.value) {
-      setButtonChildren("Enviar Email");
       return handleShowModal("Preencha o campo de email");
     }
 
     if (!isEmailValid(email.value)) {
-      setButtonChildren("Enviar Email");
-      email.value = "";
       return handleShowModal("Coloque um email válido");
     }
+
+    setButtonChildren(<LoadingGif />);
 
     await api
       .post("/user/password/send-token-password-recover", {
         email: email.value,
       })
       .then(({ data }) => {
+        setFormValues({});
         handleShowModal(data.response);
       })
       .catch(({ response }) =>
@@ -51,22 +49,26 @@ const Login = () => {
           : handleShowModal("Erro no Servidor")
       );
 
-    email.value = "";
-
     setButtonChildren("Enviar Email");
   };
 
     return ( 
         <>
             <ContainerMain>
-                <Form name="forgetPassword">
+                <Form onSubmit={handleForgetPassword}>
                     <Logo />
 
                     <h2>Esqueci minha senha</h2>
                     
-                    <FormInput type="email" name="email" placeholder="Email" />
+                    <FormInput 
+                      type="email" 
+                      name="email" 
+                      placeholder="Email" 
+                      formValues={formValues} 
+                      setFormValues={setFormValues} 
+                    />
 
-                    <FormButton onClick={() => handleForgetPassword()}>
+                    <FormButton type="submit">
                         {buttonChildren}
                     </FormButton>
 

@@ -20,20 +20,21 @@ const Room = () => {
     const { code } = useParams();
     const [admin, setAdmin] = useState(false);
     const [roomName, setRoomName] = useState();
+    const [question, setQuestion] = useState("");
     const [buttonChildren, setButtonChidren] = useState("Enviar Pergunta");
     const [questions, setQuestions] = useState([]);
     const navigate = useNavigate();
-    const handleCreateQuestion = async () => {
-        const question = document.getElementById("question");
-
-        if(!question.value)
+    const handleCreateQuestion = async (e) => {
+        e.preventDefault();
+        
+        if(!question)
             return handleShowModal("Preencha o campo de questão");
 
         setButtonChidren(<LoadingGif />);
 
         await api
             .post(`/question/${code}`, {
-                question: question.value
+                question: question
             })
             .catch(({ response }) =>
                 response
@@ -41,7 +42,7 @@ const Room = () => {
                   : handleShowModal("Erro no Servidor")
             );
 
-        question.value = "";
+        setQuestion("");
         setButtonChidren("Enviar Pergunta");
 
     }
@@ -99,10 +100,14 @@ const Room = () => {
                 {
                     !admin ? (
                         <ContainerQuestion>
-                            <form>
-                                <textarea placeholder="O que você quer perguntar?" id="question"></textarea>
+                            <form onSubmit={handleCreateQuestion}>
+                                <textarea 
+                                    placeholder="O que você quer perguntar?" 
+                                    value={question}
+                                    onChange={event => setQuestion(event.target.value)}
+                                ></textarea>
                                 <div>
-                                    <Button type="button" onClick={() => handleCreateQuestion()}>{buttonChildren}</Button>
+                                    <Button type="submit">{buttonChildren}</Button>
                                 </div>
                             </form>
                         </ContainerQuestion>

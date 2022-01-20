@@ -16,35 +16,33 @@ import { useModal } from "../../providers/ModalProvider";
 import api from "../../services/api";
 
 const CreateRoom = () => {    
+    const [formValues, setFormValues] = useState({});
     const [buttonChildren, setButtonChildren] = useState("Criar Sala");
     const { handleShowModal } = useModal();
     const { handleLogout } = useAuth();
     const navigate = useNavigate();
-    const handleCreateRoom = async () => {
+    const handleCreateRoom = async (e) => {
       setButtonChildren(<LoadingGif />);
   
-      const form = document.forms.createRoom;
+      e.preventDefault();
   
-      let { roomName } = form;
+      let { roomName } = e.target;
   
-      if (!roomName.value) {
-        setButtonChildren("Criar Sala");
+      if (!roomName.value)
         return handleShowModal("Preencha todos os campos");
-      }
   
       await api
         .post(`/room`, {
           name: roomName.value,
         })
         .then(({ data }) => {
-          roomName.value = "";
-          setButtonChildren("Criar Sala");
+          setFormValues({});
           navigate(`/room/${data.response}`);
         })
         .catch(({ response }) =>
           response
             ? handleShowModal(response.data.response)
-            : handleShowModal("Erro no Servidor")
+            : handleShowModal("Erro no Servidor, tente novamente")
         );
     };
 
@@ -73,14 +71,20 @@ const CreateRoom = () => {
     return ( 
         <>
             <ContainerMain>
-                <Form name="createRoom">
+                <Form onSubmit={handleCreateRoom}>
                     <Logo />
                     
                     <h2>Criar sala</h2>
 
-                    <FormInput type="text" name="roomName" placeholder="Nome da Sala" />
+                    <FormInput 
+                      type="text" 
+                      name="roomName" 
+                      placeholder="Nome da Sala" 
+                      formValues={formValues} 
+                      setFormValues={setFormValues} 
+                    />
 
-                    <FormButton onClick={() => handleCreateRoom()}>
+                    <FormButton type="submit">
                         {buttonChildren}
                     </FormButton>
 

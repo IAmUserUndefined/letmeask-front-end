@@ -15,48 +15,47 @@ import { useModal } from "../../providers/ModalProvider";
 
 const UpdateName = () => {
     const { handleShowModal } = useModal();
+    const [formValues, setFormValues] = useState({});
     const [buttonChidren, setButtonChildren] = useState("Atualizar Nome");
 
-    const handleUpdateName = async () => {
-        setButtonChildren(<LoadingGif />);
+    const handleUpdateName = async (e) => {
+        e.preventDefault();
+
+        const { name } = e.target;
     
-        const form = document.forms.updateName;
-    
-        let { name } = form;
-    
-        if (!name.value) {
-          setButtonChildren("Atualizar Email");
+        if (!name.value) 
           return handleShowModal("Preencha o campo de nome");
-        }
+    
+          setButtonChildren(<LoadingGif />);
     
         await api
           .patch("/update-name", {
             name: name.value,
           })
           .then(({ data }) => {
+            setFormValues({})
             handleShowModal(data.response);
           })
           .catch(({ response }) =>
             response
               ? handleShowModal(response.data.response)
-              : handleShowModal("Erro no Servidor")
+              : handleShowModal("Erro no Servidor, tente novamente mais tarde")
           );
     
-        name.value = "";
         setButtonChildren("Atualizar Nome");
       };
 
     return ( 
         <>
             <ContainerMain>
-                <Form name="updateName">
+              <Form onSubmit={handleUpdateName}>
                     <Logo />
                     
                     <h2>Atualizar Nome</h2>
 
-                    <FormInput type="text" name="name" placeholder="Nome" />
+                    <FormInput type="text" name="name" placeholder="Nome" formValues={formValues} setFormValues={setFormValues} />
 
-                    <FormButton onClick={() => handleUpdateName()}>
+                    <FormButton type="submit">
                         {buttonChidren}
                     </FormButton>
 

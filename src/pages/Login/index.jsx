@@ -11,20 +11,32 @@ import Form from "../../styles/form";
 import { useAuth } from "../../providers/AuthProvider";
 
 const Login = () => {
-    const { handleLogin, buttonChildren } = useAuth();
+    const { handleLogin, buttonChildren, formValues, setFormValues } = useAuth();
 
     return ( 
         <>
             <ContainerMain>
-                <Form name="login">
+                <Form onSubmit={handleLogin}>
                     <Logo />
                     
                     <h2>Login</h2>
 
-                    <FormInput type="email" name="email" placeholder="Email" />
-                    <FormInput type="password" name="password" placeholder="Senha" />
+                    <FormInput 
+                        type="email" 
+                        name="email" 
+                        placeholder="Email" 
+                        formValues={formValues} 
+                        setFormValues={setFormValues} 
+                    />
+                    <FormInput 
+                        type="password" 
+                        name="password" 
+                        placeholder="Senha" 
+                        formValues={formValues} 
+                        setFormValues={setFormValues} 
+                    />
 
-                    <FormButton onClick={() => handleLogin()}>
+                    <FormButton type="submit">
                         {buttonChildren}
                     </FormButton>
 

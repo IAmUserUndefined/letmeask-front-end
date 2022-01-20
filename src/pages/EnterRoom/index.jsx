@@ -19,10 +19,11 @@ const EnterRoom = () => {
     const { handleLogout } = useAuth();
     const { handleShowModal } = useModal();
     const navigate = useNavigate();
+    const [formValues, setFormValues] = useState({});
     const [buttonChildren, setButtonChidren] = useState("Entra na Sala");
-    const handleEnterRoom = async () => {
-        const form = document.forms.enterRoom;
-        const { roomCode } = form;
+    const handleEnterRoom = async (e) => {
+        e.preventDefault();
+        const { roomCode } = e.target;
 
         if(!roomCode.value)
             return handleShowModal("Preencha o código da sala");
@@ -37,24 +38,29 @@ const EnterRoom = () => {
         .catch(({ response }) =>
             response
                 ? handleShowModal(response.data.response)
-                : handleShowModal("Erro no Servidor")
+                : handleShowModal("Erro no Servidor, tente novamente mais tarde")
         );
 
-        roomCode.value = "";
         setButtonChidren("Entra na Sala");
     }
 
     return ( 
         <>
             <ContainerMain>
-                <Form name="enterRoom">
+                <Form onSubmit={handleEnterRoom}>
                     <Logo />
 
                     <h2>Entra na Sala</h2>
                     
-                    <FormInput type="text" name="roomCode" placeholder="Código da Sala" />
+                    <FormInput 
+                        type="text" 
+                        name="roomCode" 
+                        placeholder="Código da Sala" 
+                        formValues={formValues} 
+                        setFormValues={setFormValues} 
+                    />
 
-                    <FormButton onClick={() => handleEnterRoom()}>
+                    <FormButton type="submit">
                         {buttonChildren}
                     </FormButton>
 

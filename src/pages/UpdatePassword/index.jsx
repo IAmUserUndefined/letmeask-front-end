@@ -16,46 +16,33 @@ import { useModal } from "../../providers/ModalProvider";
 
 const UpdatePassword = () => {
     const { handleShowModal } = useModal();
+    const [formValues, setFormValues] = useState({});
     const [buttonChidren, setButtonChildren] = useState("Atualizar Senha");
 
-    const handleUpdatePassword = async () => {
-        setButtonChildren(<LoadingGif />);
-    
-        const form = document.forms.updatePassword;
-    
-        let { passwordCurrent, newPassword, newPasswordConfirm } = form;
+    const handleUpdatePassword = async (e) => {
+        e.preventDefault();
+
+        const { passwordCurrent, newPassword, newPasswordConfirm } = e.target;
     
         if (
           !passwordCurrent.value ||
           !newPassword.value ||
           !newPasswordConfirm.value
-        ) {
-          setButtonChildren("Atualizar Senha");
+        )
           return handleShowModal("Preencha todos os campos");
-        }
     
-        if (!isPasswordValid(passwordCurrent.value)) {
-          setButtonChildren("Atualizar Senha");
-          passwordCurrent.value = "";
-          newPassword.value = "";
-          newPasswordConfirm = "";
+        if (!isPasswordValid(passwordCurrent.value))
           return handleShowModal("Senha atual incorreta");
-        }
     
         const { result, message } = isPasswordValid(newPassword.value);
     
-        if (!result) {
-          setButtonChildren("Atualizar Senha");
-          return handleShowModal(message);
-        }
+        if (!result) return handleShowModal(message);
     
-        if (newPassword.value !== newPasswordConfirm.value) {
-          passwordCurrent.value = "";
-          newPassword.value = "";
-          newPasswordConfirm = "";
+        if (newPassword.value !== newPasswordConfirm.value)
           return handleShowModal("As senhas não coincidem");
-        }
     
+        setButtonChildren(<LoadingGif />);
+  
         await api
           .patch(`/user/password/update`, {
             passwordCurrent: passwordCurrent.value,
@@ -63,17 +50,14 @@ const UpdatePassword = () => {
             newPasswordConfirm: newPasswordConfirm.value,
           })
           .then(({ data }) => {
+            setFormValues({});
             handleShowModal(data.response);
           })
           .catch(({ response }) =>
             response
               ? handleShowModal(response.data.response)
-              : handleShowModal("Erro no Servidor")
+              : handleShowModal("Erro no Servidor, tente novamente mais tarde")
           );
-    
-        passwordCurrent.value = "";
-        newPassword.value = "";
-        newPasswordConfirm.value = "";
     
         setButtonChildren("Atualizar Senha");
       };
@@ -81,7 +65,7 @@ const UpdatePassword = () => {
     return ( 
         <>
             <ContainerMain>
-                <Form name="updatePassword">
+              <Form onSubmit={handleUpdatePassword}>
                     <Logo />
                     
                     <h2>Atualizar Senha</h2>
@@ -90,21 +74,27 @@ const UpdatePassword = () => {
                         type="password"
                         placeholder="Senha Atual"
                         name="passwordCurrent"
+                        formValues={formValues}
+                        setFormValues={setFormValues}
                     />
 
                     <FormInput
                         type="password"
                         placeholder="Nova Senha"
                         name="newPassword"
+                        formValues={formValues}
+                        setFormValues={setFormValues}
                     />
 
                     <FormInput
                         type="password"
                         placeholder="Confirmação de Nova Senha"
                         name="newPasswordConfirm"
+                        formValues={formValues}
+                        setFormValues={setFormValues}
                     />
 
-                    <FormButton onClick={() => handleUpdatePassword()}>
+                    <FormButton type="submit">
                         {buttonChidren}
                     </FormButton>
 

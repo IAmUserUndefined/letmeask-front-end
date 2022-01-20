@@ -16,40 +16,34 @@ import { useModal } from "../../providers/ModalProvider";
 
 const UpdateEmail = () => {
     const { handleShowModal } = useModal();
+    const [formValues, setFormValues] = useState({});
     const [buttonChidren, setButtonChildren] = useState("Atualizar Email");
 
-    const handleUpdateEmail = async () => {
-        setButtonChildren(<LoadingGif />);
+    const handleUpdateEmail = async (e) => {
+        e.preventDefault();
+
+        const { email } = e.target;
     
-        const form = document.forms.updateEmail;
+        if (!email.value) return handleShowModal("Preencha o campo de email");
     
-        let { email } = form;
-    
-        if (!email.value) {
-          setButtonChildren("Atualizar Email");
-          return handleShowModal("Preencha o campo de email");
-        }
-    
-        if (!isEmailValid(email.value)) {
-          setButtonChildren("Atualizar Email");
-          email.value = "";
+        if (!isEmailValid(email.value))
           return handleShowModal("Coloque um email válido");
-        }
+    
+        setButtonChildren(<LoadingGif />);
     
         await api
           .post("/user/email/send-token-update-email", {
             email: email.value,
           })
           .then(({ data }) => {
+            setFormValues({})
             handleShowModal(data.response);
           })
           .catch(({ response }) =>
             response
               ? handleShowModal(response.data.response)
-              : handleShowModal("Erro no Servidor")
+              : handleShowModal("Erro no Servidor, tente novamente mais tarde")
           );
-    
-        email.value = "";
     
         setButtonChildren("Atualizar Email");
       };
@@ -57,14 +51,20 @@ const UpdateEmail = () => {
     return ( 
         <>
             <ContainerMain>
-                <Form name="updateEmail">
+              <Form onSubmit={handleUpdateEmail}>
                     <Logo />
                     
                     <h2>Atualizar Email</h2>
 
-                    <FormInput type="email" name="email" placeholder="Email" />
+                    <FormInput 
+                      type="email" 
+                      name="email" 
+                      placeholder="Email"  
+                      formValues={formValues} 
+                      setFormValues={setFormValues}  
+                    />
 
-                    <FormButton onClick={() => handleUpdateEmail()}>
+                    <FormButton type="submit">
                         {buttonChidren}
                     </FormButton>
 

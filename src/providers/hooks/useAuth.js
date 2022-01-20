@@ -16,10 +16,11 @@ const useAuth = () => {
   const [loading, setLoading] = useState(true);
   const [buttonChildren, setButtonChildren] = useState("Login");
   const { handleShowModal } = useModal();
+  const [formValues, setFormValues] = useState({});
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const tokenExpirytime = localStorage.getItem("tokenExpiryTime");
+    const token = localStorage.getItem("tokenLetmeAsk");
+    const tokenExpirytime = localStorage.getItem("tokenExpiryLetmeAsk");
 
     if (token) {
 
@@ -34,33 +35,24 @@ const useAuth = () => {
     setLoading(false);
   }, []);
 
-  const handleLogin = async () => {
-    setButtonChildren(<LoadingGif />);
+  const handleLogin = async (e) => {
 
-    const form = document.forms.login;
+    e.preventDefault();
 
-    let { email, password } = form;
+    const { email, password } = e.target;
 
-    if (!email.value || !password.value) {
-      setButtonChildren("Login");
+    if (!email.value || !password.value)
       return handleShowModal("Preencha todos os campos");
-    }
 
-    if (!isEmailValid(email.value)) {
-      email.value = "";
-      password.value = "";
-      setButtonChildren("Login");
+    if (!isEmailValid(email.value))
       return handleShowModal("Email/Senha Incorreto(s)");
-    }
 
     const { result } = isPasswordValid(password.value);
 
-    if (!result) {
-      email.value = "";
-      password.value = "";
-      setButtonChildren("Login");
+    if (!result) 
       return handleShowModal("Email/Senha Incorreto(s)");
-    }
+
+    setButtonChildren(<LoadingGif />);
 
     await api
       .post("/user/login", {
@@ -68,34 +60,34 @@ const useAuth = () => {
         password: password.value,
       })
       .then(({ data }) => {
+        setFormValues({});
         setButtonChildren("Login");
-        localStorage.setItem("token", data.response);
-        localStorage.setItem("tokenExpiryTime", new Date().setHours(new Date().getHours() + 2));
+        localStorage.setItem("tokenLetmeAsk", data.response);
+        localStorage.setItem("tokenExpiryLetmeAsk", new Date().setHours(new Date().getHours() + 2));
         api.defaults.headers = { "Authorization": `Bearer ${data.response}` };
         setAuthenticated(true);
-        history.push("/create-room");
+        history.push("/tasks");
       })
       .catch(({ response }) =>
         response
           ? handleShowModal(response.data.response)
-          : handleShowModal("Erro no Servidor")
+          : handleShowModal("Erro no Servidor, tente novamente mais tarde")
       );
-
-      email.value = "";
-      password.value = "";
 
       setButtonChildren("Login");
   };
 
   const handleLogout = () => {
     setAuthenticated(false);
-    localStorage.removeItem("token");
-    localStorage.removeItem("tokenExpiryTime");
+    localStorage.removeItem("tokenLetmeAsk");
+    localStorage.removeItem("tokenExpiryLetmeAsk");
     api.defaults.headers = { "Authorization": undefined };
     history.push("/");
   };
 
-  return { handleLogin, handleLogout, authenticated, loading, expirySession, setExpirySession, buttonChildren };
+  return { 
+    handleLogin, handleLogout, authenticated, loading, expirySession, setExpirySession, buttonChildren, formValues, setFormValues 
+  };
 };
 
 export default useAuth;

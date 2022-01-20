@@ -17,18 +17,19 @@ const Question = ({ admin, questionId, userId, question, response  }) => {
     const { handleShowModal } = useModal();
     const [name, setName] = useState("");
     const [display, setDisplay] = useState("none");
+    const [newResponse, setNewReponse] = useState("");
     const handleShowResponseField = () => setDisplay("block");
     const handleCloseResponseField = () => setDisplay("none");
     const handleDeleteQuestion = async () => handleShowModal("", "question", questionId);
-    const handleResponse = async () => {
-        const response = document.getElementById(`response${questionId}`);
+    const handleResponse = async (e) => {
+        e.preventDefault();
 
-        if(!response.value)
+        if(!newResponse)
             return handleShowModal("Preencha o campo de resposta");
 
         await api
           .post(`/response/${code}/${questionId}`, {
-              response: response.value
+              response: newResponse
           })
         .catch(({ response }) =>
             response
@@ -94,13 +95,17 @@ const Question = ({ admin, questionId, userId, question, response  }) => {
                     ) : null
                 }
                 <ContainerResponseField display={display}>
-                    <form>
-                        <textarea placeholder="Digite sua resposta" id={`response${questionId}`}></textarea>
+                    <form onSubmit={handleResponse}>
+                        <textarea 
+                            placeholder="Digite sua resposta"
+                            value={newResponse}
+                            onChange={event => setNewReponse(event.target.value)}
+                        ></textarea>
                         <div>
                             <ButtonCancel type="button" onClick={() => handleCloseResponseField()}>
                                 Cancelar
                             </ButtonCancel>
-                            <ButtonResponse type="button" onClick={() => handleResponse()}>
+                            <ButtonResponse>
                                 Responder
                             </ButtonResponse>
                         </div>
