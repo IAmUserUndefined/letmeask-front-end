@@ -55,7 +55,7 @@ const Header = ({ admin }: HeaderTypes) => {
                             pathname !== "/my-questions" ? (<li>
                                 <CodeRoomCopy onClick={() => copyRoomCodeToClipboard()}>
                                     <span>
-                                        <img src={Copy} alt="Símbolo de Copia e Cola" />
+                                        <img src={Copy} alt="Símbolo de Cópia e Colar" />
                                     </span>
                                     <span>
                                         <strong>Sala {code}</strong>

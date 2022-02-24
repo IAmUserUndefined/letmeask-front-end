@@ -4,11 +4,11 @@ import ContainerMainStyle from "./styles";
 
 import Illustration from "../../assets/images/illustration.svg";
 
-type ContainerBigGifTypes = {
+type ContainerMainTypes = {
     children: ReactElement;
 }
 
-const ContainerMain = ({ children }: ContainerBigGifTypes) => {
+const ContainerMain = ({ children }: ContainerMainTypes) => {
     return ( 
         <>
             <ContainerMainStyle>

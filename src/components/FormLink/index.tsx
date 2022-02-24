@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 
 import FormLinkStyle from './styles';
 
-type LinkTypes = {
+type FormLinkTypes = {
     link: string,
     children: string
 }
 
-const FormLink = ( { link, children }: LinkTypes ) => {
+const FormLink = ( { link, children }: FormLinkTypes ) => {
     const navigate = useNavigate();
 
     return ( 

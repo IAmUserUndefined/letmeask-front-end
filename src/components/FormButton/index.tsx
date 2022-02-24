@@ -2,13 +2,13 @@ import React, { ReactElement } from "react";
 
 import ButtonStyle from "./styles";
 
-type ButtonTypes = {
+type FormButtonTypes = {
   children: string | ReactElement,
-  onClick?: () => void,
-  type: "button" | "submit" | "reset" | undefined
+  type: "button" | "submit" | "reset" | undefined,
+  onClick?: () => void
 }
 
-const Button = ({ children, onClick, type }: ButtonTypes) => {
+const FormButton = ({ children, type, onClick }: FormButtonTypes) => {
   return (
     <div>
         <ButtonStyle onClick={onClick} type={type || "button"}>
@@ -18,4 +18,4 @@ const Button = ({ children, onClick, type }: ButtonTypes) => {
   );
 };
 
-export default Button;
+export default FormButton;
