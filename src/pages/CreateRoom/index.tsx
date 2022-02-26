@@ -22,15 +22,16 @@ const CreateRoom = () => {
     const { handleLogout } = useAuth();
     const navigate = useNavigate();
     const handleCreateRoom = async (e: any) => {
-      setButtonChildren(<LoadingGif />);
-  
+      
       e.preventDefault();
-  
+      
       let { roomName } = e.target;
-  
+      
       if (!roomName.value)
         return handleShowModal("Preencha todos os campos");
-  
+        
+      setButtonChildren(<LoadingGif />);
+
       await api
         .post(`/room`, {
           name: roomName.value,
@@ -44,6 +45,8 @@ const CreateRoom = () => {
             ? handleShowModal(response.data.response)
             : handleShowModal("Erro no Servidor, tente novamente")
         );
+
+        setButtonChildren("Criar Sala");
     };
 
     useEffect(() => {
