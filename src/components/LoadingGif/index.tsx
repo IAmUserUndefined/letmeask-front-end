@@ -1,6 +1,6 @@
 import React from "react";
 
-import LoadigGifStyle from "./style";
+import LoadigGifStyle from "./styles";
 
 const LoadingGif = () => {
   return <LoadigGifStyle />;
