@@ -12,12 +12,7 @@ import { useModal } from "../../providers/ModalProvider";
 
 import api from "../../services/api";
 
-type QuestionTypes = {
-    id: string;
-    userId: string;
-    name: string;
-    response: string
-}
+import { QuestionTypes } from "../../types";
 
 const MyQuestions = () => {
     const { handleShowModal } = useModal();
@@ -65,10 +60,7 @@ const MyQuestions = () => {
                         (
                             <Question 
                                 key={question.id} 
-                                questionId={question.id} 
-                                userId={question.userId}
-                                question={question.name} 
-                                response={question.response} 
+                                question={question} 
                             />
                         )
                     ))

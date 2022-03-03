@@ -15,5 +15,5 @@ const InformationContainer = ({ children }: InformationContainerTypes) => {
         </>
      );
 }
- 
+
 export default InformationContainer;

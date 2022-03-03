@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ContainerQuestion = styled.div`
+export const QuestionContainerStyle = styled.div`
     margin: 2rem auto;
     max-width: 600px;
 

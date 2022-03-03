@@ -1,27 +1,10 @@
 import styled from "styled-components";
 
-type ContainerResponseFieldTypes = {
+type ContainerResponseFieldStyleTypes = {
     display: string
 }
 
-export const ContainerQuestion = styled.div`
-    max-width: 600px;
-    background-color: #fff;
-    padding: 2rem;
-    margin: 2rem auto;
-    border-radius: 8px;
-`;
-
-export const ContentQuestion = styled.div`
-    text-align: justify;
-`;
-
-export const ContainerResponse = styled.div`
-    margin-top: 1.5rem;
-    font-weight: bold;
-`;
-
-export const ContainerResponseField = styled.div<ContainerResponseFieldTypes>`
+export const ContainerResponseFieldStyle = styled.div<ContainerResponseFieldStyleTypes>`
     margin-top: 1.5rem;
     font-weight: bold;
     display: ${({ display }) => `${display}`};
